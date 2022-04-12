@@ -13,7 +13,7 @@ then walk the AST with the provided `DeclarationCollector`
 and construct a `Declaration` value for each visited `DeclSyntax` node:
 
 ```swift
-import SwiftSyntax
+import SwiftSyntaxParser
 import SwiftSemantics
 
 let source = #"""

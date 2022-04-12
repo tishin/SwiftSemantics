@@ -27,7 +27,10 @@ let package = Package(
         ),
         .testTarget(
             name: "SwiftSemanticsTests",
-            dependencies: ["SwiftSemantics"]
+            dependencies: [
+                "SwiftSemantics",
+                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax"),
+            ]
         ),
     ]
 )
