@@ -72,9 +72,6 @@ open class DeclarationCollector: SyntaxVisitor {
     /// The collected variable declarations.
     public private(set) var variables: [Variable] = []
 
-    /// Creates a new declaration collector.
-    public override init() {}
-
     // MARK: - SyntaxVisitor
 
     /// Called when visiting an `AssociatedtypeDeclSyntax` node

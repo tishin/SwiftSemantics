@@ -56,7 +56,7 @@ extension Typealias: ExpressibleBySyntax {
         modifiers = node.modifiers?.map { Modifier($0) } ?? []
         keyword = node.typealiasKeyword.text.trimmed
         name = node.identifier.text.trimmed
-        initializedType = node.initializer?.value.description.trimmed
+        initializedType = node.initializer.value.description.trimmed
         genericParameters = node.genericParameterClause?.genericParameterList.map { GenericParameter($0) } ?? []
         genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirementList)
     }

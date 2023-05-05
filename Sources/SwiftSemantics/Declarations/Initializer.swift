@@ -60,8 +60,8 @@ extension Initializer: ExpressibleBySyntax {
         keyword = node.initKeyword.text.trimmed
         optional = node.optionalMark != nil
         genericParameters = node.genericParameterClause?.genericParameterList.map { GenericParameter($0) } ?? []
-        parameters = node.parameters.parameterList.map { Function.Parameter($0) }
-        throwsOrRethrowsKeyword = node.throwsOrRethrowsKeyword?.description.trimmed
+        parameters = node.signature.input.parameterList.map { Function.Parameter($0) }
+        throwsOrRethrowsKeyword = node.signature.throwsOrRethrowsKeyword?.description.trimmed
         genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirementList)
     }
 }
