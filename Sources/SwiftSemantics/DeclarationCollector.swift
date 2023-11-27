@@ -75,7 +75,7 @@ open class DeclarationCollector: SyntaxVisitor {
     // MARK: - SyntaxVisitor
 
     /// Called when visiting an `AssociatedtypeDeclSyntax` node
-    public override func visit(_ node: AssociatedtypeDeclSyntax) -> SyntaxVisitorContinueKind {
+    public override func visit(_ node: AssociatedTypeDeclSyntax) -> SyntaxVisitorContinueKind {
         associatedTypes.append(AssociatedType(node))
         return .skipChildren
     }
@@ -165,7 +165,7 @@ open class DeclarationCollector: SyntaxVisitor {
     }
 
     /// Called when visiting a `TypealiasDeclSyntax` node
-    public override func visit(_ node: TypealiasDeclSyntax) -> SyntaxVisitorContinueKind {
+    public override func visit(_ node: TypeAliasDeclSyntax) -> SyntaxVisitorContinueKind {
         typealiases.append(Typealias(node))
         return .skipChildren
     }

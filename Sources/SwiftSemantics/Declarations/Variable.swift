@@ -80,7 +80,7 @@ extension Variable.Accessor: ExpressibleBySyntax {
         switch node.accessors {
         case .accessors(let accessorDeclListSyntax):
             return accessorDeclListSyntax.compactMap { Variable.Accessor($0) }
-        case .getter(let codeBlockItemListSyntax):
+        case .getter(_):
             return []
         }
     }

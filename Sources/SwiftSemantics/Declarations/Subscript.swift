@@ -58,9 +58,9 @@ extension Subscript: ExpressibleBySyntax {
         attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
         modifiers = node.modifiers.map { Modifier($0) }
         keyword = node.subscriptKeyword.text.trimmed
-        indices = node.indices.parameterList.map { Function.Parameter($0) }
+        indices = node.parameterClause.parameters.map { Function.Parameter($0) }
         genericParameters = node.genericParameterClause?.parameters.map { GenericParameter($0) } ?? []
-        returnType = node.result.returnType.description.trimmed
+        returnType = node.returnClause.type.description.trimmed
         genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirements)
         accessors = Variable.Accessor.accessors(from: node.accessorBlock?.as(AccessorBlockSyntax.self))
     }

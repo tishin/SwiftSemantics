@@ -67,14 +67,14 @@ public struct GenericRequirement: Hashable, Codable {
     }
 
     private init?(_ node: GenericRequirementSyntax) {
-        if let node = SameTypeRequirementSyntax(node.body) {
+        if let node = SameTypeRequirementSyntax(node.requirement) {
             self.relation = .sameType
-            self.leftTypeIdentifier = node.leftTypeIdentifier.description.trimmed
-            self.rightTypeIdentifier = node.rightTypeIdentifier.description.trimmed
-        } else if let node = ConformanceRequirementSyntax(node.body) {
+            self.leftTypeIdentifier = node.leftType.description.trimmed
+            self.rightTypeIdentifier = node.rightType.description.trimmed
+        } else if let node = ConformanceRequirementSyntax(node.requirement) {
             self.relation = .conformance
-            self.leftTypeIdentifier = node.leftTypeIdentifier.description.trimmed
-            self.rightTypeIdentifier = node.rightTypeIdentifier.description.trimmed
+            self.leftTypeIdentifier = node.leftType.description.trimmed
+            self.rightTypeIdentifier = node.rightType.description.trimmed
         } else {
             return nil
         }
