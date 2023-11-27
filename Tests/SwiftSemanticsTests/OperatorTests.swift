@@ -12,9 +12,7 @@ final class OperatorTests: XCTestCase {
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 
-        XCTAssert(declaration.attributes.isEmpty)
-        XCTAssertEqual(declaration.modifiers.count, 1)
-        XCTAssertEqual(declaration.modifiers.first?.name, "prefix")
+        XCTAssertEqual(declaration.fixity, "prefix")
         XCTAssertEqual(declaration.kind, .prefix)
         XCTAssertEqual(declaration.name, "+++")
 //        XCTAssertEqual(declaration.description, source)

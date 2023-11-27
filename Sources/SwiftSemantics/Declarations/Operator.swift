@@ -21,11 +21,8 @@ public struct Operator: Declaration, Hashable, Codable {
         }
     }
 
-    /// The declaration attributes.
-    public let attributes: [Attribute]
-
-    /// The declaration modifiers.
-    public let modifiers: [Modifier]
+    /// The declaration fixity specifier.
+    public let fixity: String
 
     /// The declaration keyword (`"operator"`).
     public let keyword: String
@@ -35,7 +32,7 @@ public struct Operator: Declaration, Hashable, Codable {
 
     /// The kind of operator (prefix, infix, or postfix).
     public var kind: Kind {
-        return Kind(modifiers) ?? .infix
+        return Kind(rawValue: fixity) ?? .infix
     }
 
     static func isValidIdentifier(_ string: String) -> Bool {
@@ -132,8 +129,7 @@ public struct Operator: Declaration, Hashable, Codable {
 extension Operator: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: OperatorDeclSyntax) {
-        attributes = []
-        modifiers = []
+        fixity = node.fixitySpecifier.text.trimmed
         keyword = node.operatorKeyword.text.trimmed
         name = node.name.text.trimmed
     }
