@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class StructureTests: XCTestCase {
@@ -8,7 +8,7 @@ final class StructureTests: XCTestCase {
         struct A { struct B { struct C {} } }
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Structure.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Structure.self, source: source)
         XCTAssertEqual(declarations.count, 3)
 
         XCTAssertEqual(declarations[0].name, "A")

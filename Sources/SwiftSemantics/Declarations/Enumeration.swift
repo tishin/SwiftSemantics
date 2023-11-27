@@ -76,10 +76,74 @@ public struct Enumeration: Declaration, Hashable, Codable {
         public let name: String
 
         /// The associated values of the enumeration case, if any.
-        public let associatedValue: [Function.Parameter]?
+        public let associatedValue: [Enumeration.Parameter]?
 
         /// The raw value of the enumeration case, if any.
         public let rawValue: String?
+    }
+    
+    /**
+     A function parameter.
+
+     This type can also be used to represent
+     initializer parameters and associated values for enumeration cases.
+     */
+    public struct Parameter: Hashable, Codable {
+        
+        /**
+         The first, external name of the parameter.
+         
+         For example,
+         given the following function declaration,
+         the first parameter has a `firstName` equal to `nil`,
+         and the second parameter has a `firstName` equal to `"by"`:
+         
+         ```swift
+         func increment(_ number: Int, by amount: Int = 1)
+         ```
+         */
+        public let firstName: String?
+        
+        /**
+         The second, internal name of the parameter.
+         
+         For example,
+         given the following function declaration,
+         the first parameter has a `secondName` equal to `"number"`,
+         and the second parameter has a `secondName` equal to `"amount"`:
+         
+         ```swift
+         func increment(_ number: Int, by amount: Int = 1)
+         ```
+         */
+        public let secondName: String?
+        
+        /**
+         The type identified by the parameter.
+         
+         For example,
+         given the following function declaration,
+         the first parameter has a `type` equal to `"Person"`,
+         and the second parameter has a `type` equal to `"String"`:
+         
+         ```swift
+         func greet(_ person: Person, with phrases: String...)
+         ```
+         */
+        public let type: String?
+        
+        /**
+         The default argument of the parameter.
+         
+         For example,
+         given the following function declaration,
+         the second parameter has a default argument equal to `"1"`.
+         
+         ```swift
+         func increment(_ number: Int, by amount: Int = 1)
+         ```
+         */
+        public let defaultArgument: String?
     }
 }
 
@@ -120,13 +184,13 @@ extension Enumeration.Case: CustomStringConvertible {
 extension Enumeration: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: EnumDeclSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = node.modifiers?.map { Modifier($0) } ?? []
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = node.modifiers.map { Modifier($0) }
         keyword = node.enumKeyword.text.trimmed
-        name = node.identifier.text.trimmed
-        inheritance = node.inheritanceClause?.inheritedTypeCollection.map { $0.typeName.description.trimmed } ?? []
-        genericParameters = node.genericParameters?.genericParameterList.map { GenericParameter($0) } ?? []
-        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirementList)
+        name = node.name.text.trimmed
+        inheritance = node.inheritanceClause?.inheritedTypes.map { $0.type.description.trimmed } ?? []
+        genericParameters = node.genericParameterClause?.parameters.map { GenericParameter($0) } ?? []
+        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirements)
     }
 }
 
@@ -143,12 +207,22 @@ extension Enumeration.Case {
             return nil
         }
 
-        attributes = parent.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = parent.modifiers?.map { Modifier($0) } ?? []
+        attributes = parent.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = parent.modifiers.map { Modifier($0) }
         keyword = parent.caseKeyword.text.trimmed
 
-        name = node.identifier.text.trimmed
-        associatedValue = node.associatedValue?.parameterList.map { Function.Parameter($0) }
+        name = node.name.text.trimmed
+        associatedValue = node.parameterClause?.parameters.map { Enumeration.Parameter($0) }
         rawValue = node.rawValue?.value.description.trimmed
+    }
+}
+
+extension Enumeration.Parameter: ExpressibleBySyntax {
+    /// Creates an instance initialized with the given syntax node.
+    public init(_ node: EnumCaseParameterSyntax) {
+        firstName = node.firstName?.text.trimmed
+        secondName = node.secondName?.text.trimmed
+        type = node.type.description.trimmed
+        defaultArgument = node.defaultValue?.value.description.trimmed
     }
 }

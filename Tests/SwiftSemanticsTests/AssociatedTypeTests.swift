@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class AssociatedTypeTests: XCTestCase {
@@ -8,7 +8,7 @@ final class AssociatedTypeTests: XCTestCase {
         associatedtype T
         """#
 
-        let declarations = try SyntaxParser.declarations(of: AssociatedType.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: AssociatedType.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let associatedType = declarations.first!
 

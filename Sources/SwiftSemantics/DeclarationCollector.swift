@@ -14,7 +14,7 @@ import SwiftSyntax
  let source = #"enum E {}"#
 
  var collector = DeclarationCollector()
- let tree = try SyntaxParser.parse(source: source)
+ let tree = try SwiftParser.Parser.parse(source: source)
  tree.walk(&collector)
 
  collector.enumerations.first?.name // "E"

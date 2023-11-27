@@ -139,10 +139,10 @@ extension PrecedenceGroup.Relation: Codable {
 extension PrecedenceGroup: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: PrecedenceGroupDeclSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = node.modifiers?.map { Modifier($0) } ?? []
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = node.modifiers.map { Modifier($0) }
         keyword = node.precedencegroupKeyword.text.trimmed
-        name = node.identifier.text.trimmed
+        name = node.name.text.trimmed
 
         var assignment: Bool?
         var associativity: Associativity?
@@ -169,7 +169,7 @@ extension PrecedenceGroup: ExpressibleBySyntax {
 private extension Bool {
     /// Creates an instance initialized with the given syntax node.
     init?(_ node: PrecedenceGroupAssignmentSyntax) {
-        self.init(node.flag.text)
+        self.init(node.value.text)
     }
 }
 
@@ -183,9 +183,9 @@ extension PrecedenceGroup.Associativity {
 extension PrecedenceGroup.Relation {
     /// Creates an instance initialized with the given syntax node.
     public init?(_ node: PrecedenceGroupRelationSyntax) {
-        let otherNames = node.otherNames.map { $0.name.description }
+        let otherNames = node.precedenceGroups.map { $0.name.description }
 
-        switch node.higherThanOrLowerThan.text {
+        switch node.higherThanOrLowerThanLabel.text {
         case "higherThan":
             self = .higherThan(otherNames)
         case "lowerThan":

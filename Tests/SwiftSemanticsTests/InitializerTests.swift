@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class InitializerTests: XCTestCase {
@@ -10,7 +10,7 @@ final class InitializerTests: XCTestCase {
         }
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Initializer.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Initializer.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let initializer = declarations.first!
 

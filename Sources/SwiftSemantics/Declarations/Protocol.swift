@@ -34,11 +34,11 @@ public struct Protocol: Declaration, Hashable, Codable {
 extension Protocol: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: ProtocolDeclSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = node.modifiers?.map { Modifier($0) } ?? []
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = node.modifiers.map { Modifier($0) }
         keyword = node.protocolKeyword.text.trimmed
-        name = node.identifier.text.trimmed
-        inheritance = node.inheritanceClause?.inheritedTypeCollection.map { $0.typeName.description.trimmed } ?? []
+        name = node.name.text.trimmed
+        inheritance = node.inheritanceClause?.inheritedTypes.map { $0.type.description.trimmed } ?? []
     }
 }
 

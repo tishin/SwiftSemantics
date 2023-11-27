@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class AttributeTests: XCTestCase {
@@ -9,7 +9,7 @@ final class AttributeTests: XCTestCase {
         struct Atomic {}
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Structure.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Structure.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let structure = declarations.first!
         XCTAssertEqual(structure.attributes.count, 1)
@@ -26,7 +26,7 @@ final class AttributeTests: XCTestCase {
         class Old {}
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Class.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Class.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let `class` = declarations.first!
         XCTAssertEqual(`class`.attributes.count, 1)

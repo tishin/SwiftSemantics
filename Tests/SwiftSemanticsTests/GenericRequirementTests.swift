@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class GenericRequirementTests: XCTestCase {
@@ -9,7 +9,7 @@ final class GenericRequirementTests: XCTestCase {
             where C1.Element: Equatable, C1.Element == C2.Element
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Function.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Function.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let function = declarations.first!
         XCTAssertEqual(function.genericRequirements.count, 2)

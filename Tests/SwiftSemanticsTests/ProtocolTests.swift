@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class ProtocolTests: XCTestCase {
@@ -8,7 +8,7 @@ final class ProtocolTests: XCTestCase {
         public protocol P {}
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Protocol.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Protocol.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 

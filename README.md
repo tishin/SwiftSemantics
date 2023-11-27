@@ -13,7 +13,7 @@ then walk the AST with the provided `DeclarationCollector`
 and construct a `Declaration` value for each visited `DeclSyntax` node:
 
 ```swift
-import SwiftSyntaxParser
+import SwiftParser
 import SwiftSemantics
 
 let source = #"""
@@ -31,7 +31,7 @@ class ViewController: UIViewController, UITableViewDelegate {
 """#
 
 var collector = DeclarationCollector()
-let tree = try SyntaxParser.parse(source: source)
+let tree = try SwiftParser.Parser.parse(source: source)
 collector.walk(tree)
 
 // Import declarations
@@ -332,7 +332,7 @@ _does_ offer this functionality.
   as opposed first to generating an Xcode project file with
   `swift package generate-xcodeproj`.
   (The reported error is:
-  `Library not loaded: @rpath/lib_InternalSwiftSyntaxParser.dylib`).
+  `Library not loaded: @rpath/lib_InternalSwiftSwiftParser.Parser.dylib`).
   As a workaround,
   you can [install the latest toolchain](https://swift.org/download/)
   and enable it in "Xcode > Preferences > Components > Toolchains".

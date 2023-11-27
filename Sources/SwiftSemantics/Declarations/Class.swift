@@ -69,15 +69,15 @@ public struct Class: Declaration, Hashable, Codable {
 extension Class: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: ClassDeclSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = node.modifiers?.map { Modifier($0) } ?? []
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = node.modifiers.map { Modifier($0) } 
         
         keyword = node.classKeyword.text.trimmed
 
-        name = node.identifier.text.trimmed
-        inheritance = node.inheritanceClause?.inheritedTypeCollection.map { $0.typeName.description.trimmed } ?? []
-        genericParameters = node.genericParameterClause?.genericParameterList.map { GenericParameter($0) } ?? []
-        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirementList)
+        name = node.name.text.trimmed
+        inheritance = node.inheritanceClause?.inheritedTypes.map { $0.type.description.trimmed } ?? []
+        genericParameters = node.genericParameterClause?.parameters.map { GenericParameter($0) } ?? []
+        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirements)
     }
 }
 

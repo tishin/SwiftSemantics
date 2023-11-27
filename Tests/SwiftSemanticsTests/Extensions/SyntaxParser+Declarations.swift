@@ -1,11 +1,11 @@
-import SwiftSyntaxParser
+import SwiftParser
 import SwiftSemantics
 import struct SwiftSemantics.Protocol
 
-extension SyntaxParser {
+extension SwiftParser.Parser {
     static func declarations<T: Declaration>(of type: T.Type, source: String) throws -> [T] {
-        let collector = DeclarationCollector()
-        let tree = try parse(source: source)
+        let collector = DeclarationCollector(viewMode: .all)
+        let tree = parse(source: source)
         collector.walk(tree)
 
         switch type {

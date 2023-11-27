@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class ModifierTests: XCTestCase {
@@ -8,7 +8,7 @@ final class ModifierTests: XCTestCase {
         public private(set) var title: String
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Variable.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Variable.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let property = declarations.first!
         XCTAssertEqual(property.modifiers.count, 2)

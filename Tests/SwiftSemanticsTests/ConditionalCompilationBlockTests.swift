@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class ConditionalCompilationBlockTests: XCTestCase {
@@ -14,7 +14,7 @@ final class ConditionalCompilationBlockTests: XCTestCase {
         #endif
         """#
 
-        let declarations = try SyntaxParser.declarations(of: ConditionalCompilationBlock.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: ConditionalCompilationBlock.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let conditionalCompilationBlock = declarations.first!
 

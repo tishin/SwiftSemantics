@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class ImportTests: XCTestCase {
@@ -8,7 +8,7 @@ final class ImportTests: XCTestCase {
         import Foundation
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Import.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Import.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 
@@ -23,7 +23,7 @@ final class ImportTests: XCTestCase {
         import struct SwiftSemantics.Import
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Import.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Import.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 

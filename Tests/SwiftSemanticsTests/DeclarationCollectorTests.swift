@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class DeclarationCollectorTests: XCTestCase {
@@ -19,8 +19,8 @@ final class DeclarationCollectorTests: XCTestCase {
 
         """#
 
-        let collector = DeclarationCollector()
-        let tree = try SyntaxParser.parse(source: source)
+        let collector = DeclarationCollector(viewMode: .all)
+        let tree = SwiftParser.Parser.parse(source: source)
         collector.walk(tree)
 
         XCTAssertEqual(collector.imports.count, 1)

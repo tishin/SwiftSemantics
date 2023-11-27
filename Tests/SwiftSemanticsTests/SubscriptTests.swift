@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class SubscriptTests: XCTestCase {
@@ -8,7 +8,7 @@ final class SubscriptTests: XCTestCase {
         subscript(index: Int) -> Int?
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Subscript.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Subscript.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 

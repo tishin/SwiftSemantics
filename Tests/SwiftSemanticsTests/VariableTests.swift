@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class VariableTests: XCTestCase {
@@ -8,7 +8,7 @@ final class VariableTests: XCTestCase {
         let greeting: String = "Hello"
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Variable.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Variable.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 
@@ -23,7 +23,7 @@ final class VariableTests: XCTestCase {
         let greeting = "Hello"
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Variable.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Variable.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 
@@ -38,7 +38,7 @@ final class VariableTests: XCTestCase {
         let (greeting, addressee): (String, Thing) = ("Hello", .world)
         """#
 
-              let declarations = try SyntaxParser.declarations(of: Variable.self, source: source)
+              let declarations = try SwiftParser.Parser.declarations(of: Variable.self, source: source)
           XCTAssertEqual(declarations.count, 1)
           let declaration = declarations.first!
 
@@ -53,7 +53,7 @@ final class VariableTests: XCTestCase {
         let greeting: String = "Hello", addressee: Thing = .world
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Variable.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Variable.self, source: source)
 
         XCTAssertEqual(declarations.count, 2)
 

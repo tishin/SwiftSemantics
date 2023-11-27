@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class TypealiasTests: XCTestCase {
@@ -8,7 +8,7 @@ final class TypealiasTests: XCTestCase {
         typealias SortableArray<T: Comparable> = Array<T>
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Typealias.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Typealias.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let `typealias` = declarations.first!
 
@@ -25,7 +25,7 @@ final class TypealiasTests: XCTestCase {
         typealias ArrayOfNumbers<T> = Array<T> where T: Numeric
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Typealias.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Typealias.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let `typealias` = declarations.first!
 

@@ -20,11 +20,11 @@ public struct Import: Declaration, Hashable, Codable {
 extension Import: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: ImportDeclSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = node.modifiers?.map { Modifier($0) } ?? []
-        keyword = node.importTok.text.trimmed
-        kind = node.importKind?.text.trimmed
-        pathComponents = node.path.tokens.filter { $0.tokenKind != .period }.map { $0.text.trimmed }
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = node.modifiers.map { Modifier($0) }
+        keyword = node.importKeyword.text.trimmed
+        kind = node.importKindSpecifier?.text.trimmed
+        pathComponents = node.path.tokens(viewMode: .all).filter { $0.tokenKind != .period }.map { $0.text.trimmed }
     }
 }
 

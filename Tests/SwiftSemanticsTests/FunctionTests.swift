@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class FunctionTests: XCTestCase {
@@ -8,7 +8,7 @@ final class FunctionTests: XCTestCase {
         public func dump<T, TargetStream>(_ value: T, to target: inout TargetStream, name: String? = nil, indent: Int = 0, maxDepth: Int = .max, maxItems: Int = .max) -> T where TargetStream: TextOutputStream
         """#
         
-        let declarations = try SyntaxParser.declarations(of: Function.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Function.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 
@@ -28,7 +28,7 @@ final class FunctionTests: XCTestCase {
         func sayHello() { print("Hello") }
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Function.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Function.self, source: source)
 
         XCTAssertEqual(declarations.count, 5)
 

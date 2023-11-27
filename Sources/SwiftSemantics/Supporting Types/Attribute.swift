@@ -76,8 +76,8 @@ public struct Attribute: Hashable, Codable {
 extension Attribute: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: AttributeSyntax) {
-        name = node.attributeName.text.trimmed
-        arguments = Argument.arguments(from: node.argument?._syntaxNode)
+        name = node.attributeName.trimmedDescription
+        arguments = Argument.arguments(from: node.arguments?._syntaxNode)
     }
 }
 

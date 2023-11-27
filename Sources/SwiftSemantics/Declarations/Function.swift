@@ -148,34 +148,34 @@ public struct Function: Declaration, Hashable, Codable {
 extension Function: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: FunctionDeclSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = node.modifiers?.map { Modifier($0) } ?? []
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = node.modifiers.map { Modifier($0) }
         keyword = node.funcKeyword.text.trimmed
-        identifier = node.identifier.text.trimmed
+        identifier = node.name.text.trimmed
         signature = Signature(node.signature)
-        genericParameters = node.genericParameterClause?.genericParameterList.map { GenericParameter($0) } ?? []
-        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirementList)
+        genericParameters = node.genericParameterClause?.parameters.map { GenericParameter($0) } ?? []
+        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirements)
     }
 }
 
 extension Function.Parameter: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: FunctionParameterSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        firstName = node.firstName?.text.trimmed
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        firstName = node.firstName.text.trimmed
         secondName = node.secondName?.text.trimmed
-        type = node.type?.description.trimmed
+        type = node.type.description.trimmed
         variadic = node.ellipsis != nil
-        defaultArgument = node.defaultArgument?.value.description.trimmed
+        defaultArgument = node.defaultValue?.value.description.trimmed
     }
 }
 
 extension Function.Signature: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: FunctionSignatureSyntax) {
-        input = node.input.parameterList.map { Function.Parameter($0) }
-        output = node.output?.returnType.description.trimmed
-        throwsOrRethrowsKeyword = node.throwsOrRethrowsKeyword?.description.trimmed
+        input = node.parameterClause.parameters.map { Function.Parameter($0) }
+        output = node.returnClause?.type.description.trimmed
+        throwsOrRethrowsKeyword = node.effectSpecifiers?.throwsSpecifier?.description.trimmed
     }
 }
 

@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class OperatorTests: XCTestCase {
@@ -8,7 +8,7 @@ final class OperatorTests: XCTestCase {
         prefix operator +++
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Operator.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Operator.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 

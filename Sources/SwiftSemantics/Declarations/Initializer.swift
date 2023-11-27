@@ -55,14 +55,14 @@ public struct Initializer: Declaration, Hashable, Codable {
 extension Initializer: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: InitializerDeclSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = node.modifiers?.map { Modifier($0) } ?? []
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = node.modifiers.map { Modifier($0) }
         keyword = node.initKeyword.text.trimmed
         optional = node.optionalMark != nil
-        genericParameters = node.genericParameterClause?.genericParameterList.map { GenericParameter($0) } ?? []
-        parameters = node.signature.input.parameterList.map { Function.Parameter($0) }
-        throwsOrRethrowsKeyword = node.signature.throwsOrRethrowsKeyword?.description.trimmed
-        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirementList)
+        genericParameters = node.genericParameterClause?.parameters.map { GenericParameter($0) } ?? []
+        parameters = node.signature.parameterClause.parameters.map { Function.Parameter($0) }
+        throwsOrRethrowsKeyword = node.signature.effectSpecifiers?.throwsSpecifier?.description.trimmed
+        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirements)
     }
 }
 

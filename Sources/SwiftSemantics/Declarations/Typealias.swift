@@ -52,13 +52,13 @@ public struct Typealias: Declaration, Hashable, Codable {
 extension Typealias: ExpressibleBySyntax {
     /// Creates an instance initialized with the given syntax node.
     public init(_ node: TypealiasDeclSyntax) {
-        attributes = node.attributes?.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) } ?? []
-        modifiers = node.modifiers?.map { Modifier($0) } ?? []
+        attributes = node.attributes.compactMap{ $0.as(AttributeSyntax.self) }.map { Attribute($0) }
+        modifiers = node.modifiers.map { Modifier($0) }
         keyword = node.typealiasKeyword.text.trimmed
-        name = node.identifier.text.trimmed
+        name = node.name.text.trimmed
         initializedType = node.initializer.value.description.trimmed
-        genericParameters = node.genericParameterClause?.genericParameterList.map { GenericParameter($0) } ?? []
-        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirementList)
+        genericParameters = node.genericParameterClause?.parameters.map { GenericParameter($0) } ?? []
+        genericRequirements = GenericRequirement.genericRequirements(from: node.genericWhereClause?.requirements)
     }
 }
 

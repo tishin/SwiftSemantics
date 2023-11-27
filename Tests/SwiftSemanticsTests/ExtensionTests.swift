@@ -1,5 +1,5 @@
 @testable import SwiftSemantics
-import SwiftSyntaxParser
+import SwiftParser
 import XCTest
 
 final class ExtensionTests: XCTestCase {
@@ -8,7 +8,7 @@ final class ExtensionTests: XCTestCase {
         extension Array where Element == String, Element: StringProtocol {}
         """#
 
-        let declarations = try SyntaxParser.declarations(of: Extension.self, source: source)
+        let declarations = try SwiftParser.Parser.declarations(of: Extension.self, source: source)
         XCTAssertEqual(declarations.count, 1)
         let declaration = declarations.first!
 
@@ -23,10 +23,10 @@ final class ExtensionTests: XCTestCase {
             var hasAny: Bool { !isEmpty }
         }
         """#
-        let extensions = try SyntaxParser.declarations(of: Extension.self, source: source)
+        let extensions = try SwiftParser.Parser.declarations(of: Extension.self, source: source)
         XCTAssertEqual(extensions.count, 1)
 
-        let properties = try SyntaxParser.declarations(of: Variable.self, source: source)
+        let properties = try SwiftParser.Parser.declarations(of: Variable.self, source: source)
         XCTAssertEqual(properties.count, 1)
     }
 
@@ -40,13 +40,13 @@ final class ExtensionTests: XCTestCase {
         }
         """#
 
-        let extensions = try SyntaxParser.declarations(of: Extension.self, source: source)
+        let extensions = try SwiftParser.Parser.declarations(of: Extension.self, source: source)
         XCTAssertEqual(extensions.count, 1)
         XCTAssertEqual(extensions[0].genericRequirements.count, 1)
         XCTAssertEqual(extensions[0].genericRequirements[0].leftTypeIdentifier, "Element")
         XCTAssertEqual(extensions[0].genericRequirements[0].rightTypeIdentifier, "Comparable")
 
-        let functions = try SyntaxParser.declarations(of: Function.self, source: source)
+        let functions = try SwiftParser.Parser.declarations(of: Function.self, source: source)
         XCTAssertEqual(functions.count, 1)
     }
 
@@ -55,7 +55,7 @@ final class ExtensionTests: XCTestCase {
         extension Collection: Hashable where Element: Hashable {}
         """#
 
-        let extensions = try SyntaxParser.declarations(of: Extension.self, source: source)
+        let extensions = try SwiftParser.Parser.declarations(of: Extension.self, source: source)
         XCTAssertEqual(extensions.count, 1)
 
         XCTAssertEqual(extensions[0].genericRequirements.count, 1)
